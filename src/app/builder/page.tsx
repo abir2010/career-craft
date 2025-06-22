@@ -23,16 +23,21 @@ export default function BuilderPage() {
 
     setIsDownloading(true);
 
+    // Temporarily remove dark mode to ensure PDF is rendered with light theme
+    const isDarkMode = document.documentElement.classList.contains("dark");
+    if (isDarkMode) {
+      document.documentElement.classList.remove("dark");
+    }
+
     try {
       const canvas = await html2canvas(element, {
-        scale: 2, // Capture at a higher resolution for better quality
+        scale: 2,
         useCORS: true,
         backgroundColor: "#ffffff",
       });
 
       const imgData = canvas.toDataURL("image/png");
 
-      // Using 'letter' format which is 8.5in x 11in. In points, this is 612pt x 792pt.
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "pt",
@@ -43,8 +48,6 @@ export default function BuilderPage() {
       const imgProps = pdf.getImageProperties(imgData);
       const imgWidth = imgProps.width;
       const imgHeight = imgProps.height;
-
-      // Calculate the height of the image in the PDF to maintain aspect ratio
       const ratio = pdfWidth / imgWidth;
       const pdfHeight = imgHeight * ratio;
 
@@ -52,8 +55,11 @@ export default function BuilderPage() {
       pdf.save("resume.pdf");
     } catch (error) {
       console.error("Failed to generate PDF", error);
-      // Optionally, show an error toast to the user
     } finally {
+      // Restore dark mode if it was enabled
+      if (isDarkMode) {
+        document.documentElement.classList.add("dark");
+      }
       setIsDownloading(false);
     }
   };
