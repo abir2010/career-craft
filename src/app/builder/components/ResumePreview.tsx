@@ -7,7 +7,6 @@ import {
   Briefcase,
   GraduationCap,
   Star,
-  Target,
   FolderKanban,
   Award,
 } from "lucide-react";
@@ -57,16 +56,13 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
       <main className="space-y-10">
         {personalInfo.careerObjective && (
           <section>
-            <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-4 flex items-center gap-2">
-              <Target /> Objective
-            </h2>
             <p className="text-gray-600 text-sm">
               {personalInfo.careerObjective}
             </p>
           </section>
         )}
         <section>
-          <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-4 flex items-center gap-2">
+          <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-4 flex items-baseline gap-2">
             <Briefcase /> Experience
           </h2>
           <div className="space-y-6">
@@ -100,7 +96,7 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-4 flex items-center gap-2">
+          <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-4 flex items-baseline gap-2">
             <GraduationCap /> Education
           </h2>
           <div className="space-y-4">
@@ -126,7 +122,7 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-4 flex items-center gap-2">
+          <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-4 flex items-baseline gap-2">
             <FolderKanban /> Projects
           </h2>
           <div className="space-y-6">
@@ -161,7 +157,7 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-4 flex items-center gap-2">
+          <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-4 flex items-baseline gap-2">
             <Star /> Skills
           </h2>
           <div className="flex flex-wrap gap-x-4 gap-y-2">
@@ -180,7 +176,7 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-4 flex items-center gap-2">
+          <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-4 flex items-baseline gap-2">
             <Award /> Extracurricular Activities
           </h2>
           <div className="space-y-4">

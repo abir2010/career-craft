@@ -27,6 +27,7 @@ export default function BuilderPage() {
       const canvas = await html2canvas(element, {
         scale: 2, // Capture at a higher resolution for better quality
         useCORS: true,
+        backgroundColor: "#ffffff",
       });
 
       const imgData = canvas.toDataURL("image/png");
