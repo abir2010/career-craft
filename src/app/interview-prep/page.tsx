@@ -13,6 +13,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -43,6 +44,7 @@ const formSchema = z.object({
 export default function InterviewPrepPage() {
   const [qaPairs, setQaPairs] = useState<PrepareInterviewOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isGeneratingMore, setIsGeneratingMore] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -67,6 +69,28 @@ export default function InterviewPrepPage() {
       });
     } finally {
       setIsLoading(false);
+    }
+  }
+
+  async function handleGenerateMore() {
+    if (!qaPairs) return;
+    setIsGeneratingMore(true);
+    try {
+      const topic = form.getValues("topic");
+      const existingQuestions = qaPairs.qaPairs.map((qa) => qa.question);
+      const result = await prepareForInterview({ topic, existingQuestions });
+      setQaPairs((prev) => ({
+        qaPairs: [...(prev?.qaPairs || []), ...result.qaPairs],
+      }));
+    } catch (error) {
+      console.error("Error generating more questions:", error);
+      toast({
+        title: "Error",
+        description: "Failed to generate more questions. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsGeneratingMore(false);
     }
   }
 
@@ -182,6 +206,24 @@ export default function InterviewPrepPage() {
                   ))}
                 </Accordion>
               </CardContent>
+              <CardFooter className="justify-center">
+                <Button
+                  onClick={handleGenerateMore}
+                  disabled={isLoading || isGeneratingMore}
+                >
+                  {isGeneratingMore ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Generating More...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="mr-2 h-4 w-4" />
+                      Generate More
+                    </>
+                  )}
+                </Button>
+              </CardFooter>
             </Card>
           )}
         </div>

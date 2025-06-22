@@ -15,6 +15,10 @@ const PrepareInterviewInputSchema = z.object({
   topic: z
     .string()
     .describe('The topic or job role for which to generate interview questions.'),
+  existingQuestions: z
+    .array(z.string())
+    .optional()
+    .describe('A list of questions that have already been generated to avoid duplicates.'),
 });
 export type PrepareInterviewInput = z.infer<typeof PrepareInterviewInputSchema>;
 
@@ -42,7 +46,14 @@ const prepareInterviewPrompt = ai.definePrompt({
   
 Given the topic or job role below, please generate 5-10 common and insightful interview questions. For each question, provide a detailed, well-structured, and ideal answer.
 
-Topic: {{{topic}}}`,
+Topic: {{{topic}}}
+{{#if existingQuestions}}
+
+Please generate new questions that are different from the ones already provided below:
+{{#each existingQuestions}}
+- {{{this}}}
+{{/each}}
+{{/if}}`,
 });
 
 const prepareInterviewFlow = ai.defineFlow(
