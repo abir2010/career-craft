@@ -7,7 +7,13 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { FileText, Mail, PenSquare, ArrowRight } from "lucide-react";
+import {
+  FileText,
+  Mail,
+  PenSquare,
+  ArrowRight,
+  MessageSquare,
+} from "lucide-react";
 
 export default function Home() {
   const features = [
@@ -32,6 +38,13 @@ export default function Home() {
       href: "/review",
       icon: PenSquare,
     },
+    {
+      title: "AI Interview Prep",
+      description:
+        "Generate practice interview questions and answers for any topic or job role.",
+      href: "/interview-prep",
+      icon: MessageSquare,
+    },
   ];
 
   return (
@@ -44,7 +57,7 @@ export default function Home() {
           Your all-in-one solution for building a winning career profile.
         </p>
       </header>
-      <main className="flex-1 p-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <main className="flex-1 p-6 grid gap-6 md:grid-cols-2">
         {features.map((feature) => (
           <Card
             key={feature.title}

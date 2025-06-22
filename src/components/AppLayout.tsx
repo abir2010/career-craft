@@ -22,6 +22,7 @@ import {
   Mail,
   PenSquare,
   Sparkles,
+  MessageSquare,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -30,6 +31,7 @@ const menuItems = [
   { href: "/builder", label: "Resume Builder", icon: FileText },
   { href: "/cover-letter", label: "Cover Letter AI", icon: Mail },
   { href: "/review", label: "Resume Review AI", icon: PenSquare },
+  { href: "/interview-prep", label: "Interview Prep AI", icon: MessageSquare },
 ];
 
 function AppLayoutUI({ children }: { children: React.ReactNode }) {
