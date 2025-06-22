@@ -67,7 +67,7 @@ export default function Home() {
             <Card
               key={feature.title}
               className={cn(
-                "flex flex-col hover:shadow-lg transition-shadow duration-300",
+                "flex flex-col hover:shadow-lg transition-all duration-300 hover:scale-[1.02]",
                 isTall && "md:row-span-2"
               )}
             >
