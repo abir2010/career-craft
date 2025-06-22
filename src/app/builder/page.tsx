@@ -1,18 +1,60 @@
 "use client";
 
 import { useState } from "react";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 import { ResumeForm } from "./components/ResumeForm";
 import { ResumePreview } from "./components/ResumePreview";
 import type { ResumeData } from "./types";
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import { Download, Loader2 } from "lucide-react";
 import { initialResumeData } from "./initial-data";
 
 export default function BuilderPage() {
   const [resumeData, setResumeData] = useState<ResumeData>(initialResumeData);
+  const [isDownloading, setIsDownloading] = useState(false);
 
-  const handlePrint = () => {
-    window.print();
+  const handleDownloadPdf = async () => {
+    const element = document.getElementById("resume-preview");
+    if (!element) {
+      console.error("Resume preview element not found");
+      return;
+    }
+
+    setIsDownloading(true);
+
+    try {
+      const canvas = await html2canvas(element, {
+        scale: 2, // Capture at a higher resolution for better quality
+        useCORS: true,
+      });
+
+      const imgData = canvas.toDataURL("image/png");
+
+      // Using 'letter' format which is 8.5in x 11in. In points, this is 612pt x 792pt.
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "pt",
+        format: "letter",
+      });
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const imgProps = pdf.getImageProperties(imgData);
+      const imgWidth = imgProps.width;
+      const imgHeight = imgProps.height;
+
+      // Calculate the height of the image in the PDF to maintain aspect ratio
+      const ratio = pdfWidth / imgWidth;
+      const pdfHeight = imgHeight * ratio;
+
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("resume.pdf");
+    } catch (error) {
+      console.error("Failed to generate PDF", error);
+      // Optionally, show an error toast to the user
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   return (
@@ -24,9 +66,18 @@ export default function BuilderPage() {
             Fill out the form to see your resume update in real-time.
           </p>
         </div>
-        <Button onClick={handlePrint}>
-          <Download className="mr-2 h-4 w-4" />
-          Download PDF
+        <Button onClick={handleDownloadPdf} disabled={isDownloading}>
+          {isDownloading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Downloading...
+            </>
+          ) : (
+            <>
+              <Download className="mr-2 h-4 w-4" />
+              Download PDF
+            </>
+          )}
         </Button>
       </header>
       <div className="flex-1 grid md:grid-cols-[450px_1fr] overflow-hidden">
