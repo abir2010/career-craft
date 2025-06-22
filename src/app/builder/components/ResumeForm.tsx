@@ -19,6 +19,8 @@ import {
   Star,
   PlusCircle,
   Trash2,
+  FolderKanban,
+  Award,
 } from "lucide-react";
 
 const uid = () => `id-${Date.now()}${Math.random().toString(36).substr(2, 9)}`;
@@ -29,7 +31,9 @@ interface ResumeFormProps {
 }
 
 export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
-  const handlePersonalInfoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePersonalInfoChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setResumeData((prev) => ({
       ...prev,
@@ -101,6 +105,34 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
     }));
   };
 
+  const handleProjectChange = (
+    id: string,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setResumeData((prev) => ({
+      ...prev,
+      projects: prev.projects.map((proj) =>
+        proj.id === id ? { ...proj, [name]: value } : proj
+      ),
+    }));
+  };
+  const addProject = () => {
+    setResumeData((prev) => ({
+      ...prev,
+      projects: [
+        ...prev.projects,
+        { id: uid(), name: "", description: "", link: "" },
+      ],
+    }));
+  };
+  const removeProject = (id: string) => {
+    setResumeData((prev) => ({
+      ...prev,
+      projects: prev.projects.filter((proj) => proj.id !== id),
+    }));
+  };
+
   const handleSkillChange = (
     id: string,
     e: React.ChangeEvent<HTMLInputElement>
@@ -123,6 +155,36 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
     setResumeData((prev) => ({
       ...prev,
       skills: prev.skills.filter((skill) => skill.id !== id),
+    }));
+  };
+
+  const handleExtracurricularChange = (
+    id: string,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setResumeData((prev) => ({
+      ...prev,
+      extracurriculars: prev.extracurriculars.map((extra) =>
+        extra.id === id ? { ...extra, [name]: value } : extra
+      ),
+    }));
+  };
+  const addExtracurricular = () => {
+    setResumeData((prev) => ({
+      ...prev,
+      extracurriculars: [
+        ...prev.extracurriculars,
+        { id: uid(), activity: "", description: "" },
+      ],
+    }));
+  };
+  const removeExtracurricular = (id: string) => {
+    setResumeData((prev) => ({
+      ...prev,
+      extracurriculars: prev.extracurriculars.filter(
+        (extra) => extra.id !== id
+      ),
     }));
   };
 
@@ -184,6 +246,16 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
                 name="link"
                 value={resumeData.personalInfo.link}
                 onChange={handlePersonalInfoChange}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="careerObjective">Career Objective</Label>
+              <Textarea
+                id="careerObjective"
+                name="careerObjective"
+                value={resumeData.personalInfo.careerObjective}
+                onChange={handlePersonalInfoChange}
+                rows={4}
               />
             </div>
           </AccordionContent>
@@ -358,6 +430,67 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
           </AccordionContent>
         </AccordionItem>
 
+        <AccordionItem value="projects">
+          <AccordionTrigger>
+            <div className="flex items-center gap-2 font-headline">
+              <FolderKanban /> Projects
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="space-y-4 p-2">
+            {resumeData.projects.map((proj) => (
+              <Card key={proj.id}>
+                <CardContent className="p-4 space-y-4 relative">
+                  <div className="space-y-2">
+                    <Label htmlFor={`projectName-${proj.id}`}>
+                      Project Name
+                    </Label>
+                    <Input
+                      id={`projectName-${proj.id}`}
+                      name="name"
+                      value={proj.name}
+                      onChange={(e) => handleProjectChange(proj.id, e)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor={`projectLink-${proj.id}`}>Link</Label>
+                    <Input
+                      id={`projectLink-${proj.id}`}
+                      name="link"
+                      value={proj.link}
+                      onChange={(e) => handleProjectChange(proj.id, e)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor={`projectDescription-${proj.id}`}>
+                      Description
+                    </Label>
+                    <Textarea
+                      id={`projectDescription-${proj.id}`}
+                      name="description"
+                      value={proj.description}
+                      onChange={(e) => handleProjectChange(proj.id, e)}
+                      rows={3}
+                    />
+                  </div>
+                  {resumeData.projects.length > 1 && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="absolute top-2 right-2 text-destructive"
+                      onClick={() => removeProject(proj.id)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+            <Button variant="outline" onClick={addProject} className="w-full">
+              <PlusCircle className="mr-2 h-4 w-4" /> Add Project
+            </Button>
+          </AccordionContent>
+        </AccordionItem>
+
         <AccordionItem value="skills">
           <AccordionTrigger>
             <div className="flex items-center gap-2 font-headline">
@@ -373,19 +506,75 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
                     value={skill.name}
                     onChange={(e) => handleSkillChange(skill.id, e)}
                   />
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="text-destructive shrink-0"
-                    onClick={() => removeSkill(skill.id)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                  {resumeData.skills.length > 1 && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-destructive shrink-0"
+                      onClick={() => removeSkill(skill.id)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  )}
                 </div>
               ))}
             </div>
             <Button variant="outline" onClick={addSkill} className="w-full">
               <PlusCircle className="mr-2 h-4 w-4" /> Add Skill
+            </Button>
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="extracurriculars">
+          <AccordionTrigger>
+            <div className="flex items-center gap-2 font-headline">
+              <Award /> Extracurricular Activities
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="space-y-4 p-2">
+            {resumeData.extracurriculars.map((extra) => (
+              <Card key={extra.id}>
+                <CardContent className="p-4 space-y-4 relative">
+                  <div className="space-y-2">
+                    <Label htmlFor={`activity-${extra.id}`}>Activity</Label>
+                    <Input
+                      id={`activity-${extra.id}`}
+                      name="activity"
+                      value={extra.activity}
+                      onChange={(e) => handleExtracurricularChange(extra.id, e)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor={`extraDescription-${extra.id}`}>
+                      Description
+                    </Label>
+                    <Textarea
+                      id={`extraDescription-${extra.id}`}
+                      name="description"
+                      value={extra.description}
+                      onChange={(e) => handleExtracurricularChange(extra.id, e)}
+                      rows={3}
+                    />
+                  </div>
+                  {resumeData.extracurriculars.length > 1 && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="absolute top-2 right-2 text-destructive"
+                      onClick={() => removeExtracurricular(extra.id)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+            <Button
+              variant="outline"
+              onClick={addExtracurricular}
+              className="w-full"
+            >
+              <PlusCircle className="mr-2 h-4 w-4" /> Add Activity
             </Button>
           </AccordionContent>
         </AccordionItem>

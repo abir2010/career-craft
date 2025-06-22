@@ -7,6 +7,9 @@ import {
   Briefcase,
   GraduationCap,
   Star,
+  Target,
+  FolderKanban,
+  Award,
 } from "lucide-react";
 
 interface ResumePreviewProps {
@@ -14,7 +17,14 @@ interface ResumePreviewProps {
 }
 
 export function ResumePreview({ resumeData }: ResumePreviewProps) {
-  const { personalInfo, experience, education, skills } = resumeData;
+  const {
+    personalInfo,
+    experience,
+    education,
+    projects,
+    skills,
+    extracurriculars,
+  } = resumeData;
 
   return (
     <div
@@ -45,6 +55,16 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
         </div>
       </header>
       <main className="space-y-10">
+        {personalInfo.careerObjective && (
+          <section>
+            <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-4 flex items-center gap-2">
+              <Target /> Objective
+            </h2>
+            <p className="text-gray-600 text-sm">
+              {personalInfo.careerObjective}
+            </p>
+          </section>
+        )}
         <section>
           <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-4 flex items-center gap-2">
             <Briefcase /> Experience
@@ -107,6 +127,41 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
 
         <section>
           <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-4 flex items-center gap-2">
+            <FolderKanban /> Projects
+          </h2>
+          <div className="space-y-6">
+            {projects.map((proj) => (
+              <div key={proj.id}>
+                <div className="flex justify-between items-baseline">
+                  <h3 className="text-lg font-semibold font-headline">
+                    {proj.name}
+                  </h3>
+                  {proj.link && (
+                    <a
+                      href={`//${proj.link}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm font-medium text-primary hover:underline"
+                    >
+                      {proj.link}
+                    </a>
+                  )}
+                </div>
+                <ul className="mt-2 list-disc list-inside text-gray-600 space-y-1 text-sm">
+                  {proj.description
+                    .split("\n")
+                    .map(
+                      (line, i) =>
+                        line && <li key={i}>{line.replace(/^- /, "")}</li>
+                    )}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-4 flex items-center gap-2">
             <Star /> Skills
           </h2>
           <div className="flex flex-wrap gap-x-4 gap-y-2">
@@ -121,6 +176,29 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
                   </span>
                 )
             )}
+          </div>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-4 flex items-center gap-2">
+            <Award /> Extracurricular Activities
+          </h2>
+          <div className="space-y-4">
+            {extracurriculars.map((extra) => (
+              <div key={extra.id}>
+                <h3 className="text-lg font-semibold font-headline">
+                  {extra.activity}
+                </h3>
+                <ul className="mt-1 list-disc list-inside text-gray-600 space-y-1 text-sm">
+                  {extra.description
+                    .split("\n")
+                    .map(
+                      (line, i) =>
+                        line && <li key={i}>{line.replace(/^- /, "")}</li>
+                    )}
+                </ul>
+              </div>
+            ))}
           </div>
         </section>
       </main>

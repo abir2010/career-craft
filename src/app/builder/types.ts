@@ -4,6 +4,7 @@ export interface PersonalInfo {
   phoneNumber: string;
   address: string;
   link: string;
+  careerObjective: string;
 }
 
 export interface Experience {
@@ -24,14 +25,29 @@ export interface Education {
   gradDate: string;
 }
 
+export interface Project {
+  id: string;
+  name: string;
+  description: string;
+  link: string;
+}
+
 export interface Skill {
   id: string;
   name: string;
+}
+
+export interface Extracurricular {
+  id: string;
+  activity: string;
+  description: string;
 }
 
 export interface ResumeData {
   personalInfo: PersonalInfo;
   experience: Experience[];
   education: Education[];
+  projects: Project[];
   skills: Skill[];
+  extracurriculars: Extracurricular[];
 }
