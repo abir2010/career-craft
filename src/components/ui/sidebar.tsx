@@ -176,7 +176,8 @@ const Sidebar = React.forwardRef<
     },
     ref
   ) => {
-    const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
+    const { isMobile, state: pinnedState, openMobile, setOpenMobile } = useSidebar()
+    const [isHovered, setIsHovered] = React.useState(false)
 
     if (collapsible === "none") {
       return (
@@ -213,6 +214,18 @@ const Sidebar = React.forwardRef<
       )
     }
 
+    const handleMouseEnter = () => {
+      if (pinnedState === "collapsed" && collapsible === "icon") {
+        setIsHovered(true)
+      }
+    }
+    const handleMouseLeave = () => {
+      setIsHovered(false)
+    }
+
+    const state =
+      pinnedState === "expanded" || isHovered ? "expanded" : "collapsed"
+
     return (
       <div
         ref={ref}
@@ -221,6 +234,8 @@ const Sidebar = React.forwardRef<
         data-collapsible={state === "collapsed" ? collapsible : ""}
         data-variant={variant}
         data-side={side}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         {/* This is what handles the sidebar gap on desktop */}
         <div

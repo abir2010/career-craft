@@ -13,6 +13,7 @@ import {
   SidebarMenuButton,
   SidebarInset,
   SidebarTrigger,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,23 +24,29 @@ import {
   Sparkles,
 } from "lucide-react";
 
-export function AppLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
+const menuItems = [
+  { href: "/", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/builder", label: "Resume Builder", icon: FileText },
+  { href: "/cover-letter", label: "Cover Letter AI", icon: Mail },
+  { href: "/review", label: "Resume Review AI", icon: PenSquare },
+];
 
-  const menuItems = [
-    { href: "/", label: "Dashboard", icon: LayoutDashboard },
-    { href: "/builder", label: "Resume Builder", icon: FileText },
-    { href: "/cover-letter", label: "Cover Letter AI", icon: Mail },
-    { href: "/review", label: "Resume Review AI", icon: PenSquare },
-  ];
+function AppLayoutUI({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const { state } = useSidebar();
 
   return (
-    <SidebarProvider>
+    <>
       <Sidebar collapsible="icon">
         <SidebarHeader>
           <div className="flex items-center justify-between p-2">
             <div className="flex items-center gap-2 overflow-hidden">
-              <Button variant="ghost" size="icon" className="h-9 w-9 shrink-0" asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-9 w-9 shrink-0"
+                asChild
+              >
                 <Link href="/">
                   <Sparkles className="h-6 w-6 text-primary" />
                 </Link>
@@ -48,7 +55,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                 CareerCraft AI
               </h1>
             </div>
-            <SidebarTrigger />
+            {state === "expanded" && <SidebarTrigger />}
           </div>
         </SidebarHeader>
         <SidebarContent>
@@ -74,6 +81,14 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         </SidebarContent>
       </Sidebar>
       <SidebarInset>{children}</SidebarInset>
+    </>
+  );
+}
+
+export function AppLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <SidebarProvider>
+      <AppLayoutUI>{children}</AppLayoutUI>
     </SidebarProvider>
   );
 }
