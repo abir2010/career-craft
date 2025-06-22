@@ -23,12 +23,6 @@ export default function BuilderPage() {
 
     setIsDownloading(true);
 
-    // Temporarily remove dark mode to ensure PDF is rendered with light theme
-    const isDarkMode = document.documentElement.classList.contains("dark");
-    if (isDarkMode) {
-      document.documentElement.classList.remove("dark");
-    }
-
     try {
       const canvas = await html2canvas(element, {
         scale: 2,
@@ -56,10 +50,6 @@ export default function BuilderPage() {
     } catch (error) {
       console.error("Failed to generate PDF", error);
     } finally {
-      // Restore dark mode if it was enabled
-      if (isDarkMode) {
-        document.documentElement.classList.add("dark");
-      }
       setIsDownloading(false);
     }
   };
