@@ -44,11 +44,11 @@ export default function Home() {
           Your all-in-one solution for building a winning career profile.
         </p>
       </header>
-      <main className="flex-1 p-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-start">
+      <main className="flex-1 p-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {features.map((feature) => (
           <Card
             key={feature.title}
-            className="hover:shadow-lg transition-shadow duration-300"
+            className="flex flex-col hover:shadow-lg transition-shadow duration-300"
           >
             <CardHeader>
               <div className="flex items-center gap-4">
@@ -58,9 +58,9 @@ export default function Home() {
                 <CardTitle className="font-headline">{feature.title}</CardTitle>
               </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex flex-col flex-grow">
               <CardDescription>{feature.description}</CardDescription>
-              <Button asChild className="mt-4 w-full">
+              <Button asChild className="mt-auto w-full">
                 <Link href={feature.href}>
                   Get Started <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
