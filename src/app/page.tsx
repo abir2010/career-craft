@@ -67,12 +67,11 @@ export default function Home() {
             <Card
               key={feature.title}
               className={cn(
-                "relative flex flex-col overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02]",
+                "flex flex-col hover:shadow-lg transition-all duration-300 hover:scale-[1.02]",
                 isTall && "md:row-span-2"
               )}
             >
-              <div className="absolute inset-0 bg-[radial-gradient(hsl(var(--border))_1px,transparent_1px)] [background-size:16px_16px]"></div>
-              <CardHeader className="relative z-10">
+              <CardHeader>
                 <div className="flex items-center gap-4">
                   <div className="bg-primary/10 p-3 rounded-lg">
                     <feature.icon className="h-6 w-6 text-primary" />
@@ -82,7 +81,7 @@ export default function Home() {
                   </CardTitle>
                 </div>
               </CardHeader>
-              <CardContent className="relative z-10 flex flex-col flex-grow">
+              <CardContent className="flex flex-col flex-grow">
                 <CardDescription>{feature.description}</CardDescription>
                 <Button asChild className="mt-auto w-full">
                   <Link href={feature.href}>
