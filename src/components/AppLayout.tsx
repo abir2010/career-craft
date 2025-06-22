@@ -23,6 +23,7 @@ import {
   PenSquare,
   Sparkles,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const menuItems = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -39,7 +40,12 @@ function AppLayoutUI({ children }: { children: React.ReactNode }) {
     <>
       <Sidebar collapsible="icon">
         <SidebarHeader>
-          <div className="flex items-center justify-between p-2">
+          <div
+            className={cn(
+              "flex items-center p-2",
+              state === "expanded" ? "justify-start" : "justify-center"
+            )}
+          >
             <div className="flex items-center gap-2 overflow-hidden">
               <Button
                 variant="ghost"
@@ -55,7 +61,6 @@ function AppLayoutUI({ children }: { children: React.ReactNode }) {
                 CareerCraft AI
               </h1>
             </div>
-            {state === "expanded" && <SidebarTrigger />}
           </div>
         </SidebarHeader>
         <SidebarContent>
