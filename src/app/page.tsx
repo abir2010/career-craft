@@ -14,6 +14,7 @@ import {
   ArrowRight,
   MessageSquare,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function Home() {
   const features = [
@@ -57,30 +58,40 @@ export default function Home() {
           Your all-in-one solution for building a winning career profile.
         </p>
       </header>
-      <main className="flex-1 p-6 grid gap-6 md:grid-cols-2">
-        {features.map((feature) => (
-          <Card
-            key={feature.title}
-            className="flex flex-col hover:shadow-lg transition-shadow duration-300"
-          >
-            <CardHeader>
-              <div className="flex items-center gap-4">
-                <div className="bg-primary/10 p-3 rounded-lg">
-                  <feature.icon className="h-6 w-6 text-primary" />
+      <main className="flex-1 p-6 grid gap-6 md:grid-cols-3">
+        {features.map((feature) => {
+          const isTall =
+            feature.href === "/cover-letter" || feature.href === "/review";
+
+          return (
+            <Card
+              key={feature.title}
+              className={cn(
+                "flex flex-col hover:shadow-lg transition-shadow duration-300",
+                isTall && "md:row-span-2"
+              )}
+            >
+              <CardHeader>
+                <div className="flex items-center gap-4">
+                  <div className="bg-primary/10 p-3 rounded-lg">
+                    <feature.icon className="h-6 w-6 text-primary" />
+                  </div>
+                  <CardTitle className="font-headline">
+                    {feature.title}
+                  </CardTitle>
                 </div>
-                <CardTitle className="font-headline">{feature.title}</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent className="flex flex-col flex-grow">
-              <CardDescription>{feature.description}</CardDescription>
-              <Button asChild className="mt-auto w-full">
-                <Link href={feature.href}>
-                  Get Started <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
+              </CardHeader>
+              <CardContent className="flex flex-col flex-grow">
+                <CardDescription>{feature.description}</CardDescription>
+                <Button asChild className="mt-auto w-full">
+                  <Link href={feature.href}>
+                    Get Started <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+          );
+        })}
       </main>
     </div>
   );
