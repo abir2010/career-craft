@@ -35,16 +35,20 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <SidebarProvider>
-      <Sidebar>
+      <Sidebar collapsible="icon">
         <SidebarHeader>
-          <div className="flex items-center gap-2 p-2">
-            <Button variant="ghost" size="icon" className="h-9 w-9" asChild>
-              <Link href="/">
-                <Sparkles className="h-6 w-6 text-primary" />
-              </Link>
-            </Button>
-            <h1 className="text-xl font-headline font-semibold">CareerCraft AI</h1>
-            <SidebarTrigger className="ml-auto" />
+          <div className="flex items-center justify-between p-2">
+            <div className="flex items-center gap-2 overflow-hidden">
+              <Button variant="ghost" size="icon" className="h-9 w-9 shrink-0" asChild>
+                <Link href="/">
+                  <Sparkles className="h-6 w-6 text-primary" />
+                </Link>
+              </Button>
+              <h1 className="text-xl font-headline font-semibold whitespace-nowrap">
+                CareerCraft AI
+              </h1>
+            </div>
+            <SidebarTrigger />
           </div>
         </SidebarHeader>
         <SidebarContent>
