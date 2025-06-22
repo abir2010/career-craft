@@ -28,9 +28,9 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
   return (
     <div
       id="resume-preview"
-      className="w-[8.5in] min-h-[11in] bg-white text-gray-800 p-12 shadow-lg font-body scale-[0.6] origin-top md:scale-100"
+      className="w-[8.5in] min-h-[11in] bg-white text-gray-800 p-10 shadow-lg font-body scale-[0.6] origin-top md:scale-100"
     >
-      <header className="text-center border-b-2 border-gray-300 pb-6 mb-8">
+      <header className="text-center border-b-2 border-gray-300 pb-4 mb-6">
         <h1 className="text-5xl font-bold font-headline text-gray-800 tracking-wide">
           {personalInfo.fullName}
         </h1>
@@ -53,7 +53,7 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
           </div>
         </div>
       </header>
-      <main className="space-y-10">
+      <main className="space-y-8">
         {personalInfo.careerObjective && (
           <section>
             <p className="text-gray-600 text-sm">
@@ -62,10 +62,10 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
           </section>
         )}
         <section>
-          <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-4 flex items-baseline gap-2">
+          <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-3 flex items-center gap-2">
             <Briefcase /> Experience
           </h2>
-          <div className="space-y-6">
+          <div className="space-y-4">
             {experience.map((exp) => (
               <div key={exp.id}>
                 <div className="flex justify-between items-baseline">
@@ -82,7 +82,7 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
                     {exp.location}
                   </p>
                 </div>
-                <ul className="mt-2 list-disc list-inside text-gray-600 space-y-1 text-sm">
+                <ul className="mt-1 list-disc list-inside text-gray-600 space-y-1 text-sm">
                   {exp.description
                     .split("\n")
                     .map(
@@ -96,10 +96,10 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-4 flex items-baseline gap-2">
+          <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-3 flex items-center gap-2">
             <GraduationCap /> Education
           </h2>
-          <div className="space-y-4">
+          <div className="space-y-3">
             {education.map((edu) => (
               <div key={edu.id}>
                 <div className="flex justify-between items-baseline">
@@ -122,10 +122,10 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-4 flex items-baseline gap-2">
+          <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-3 flex items-center gap-2">
             <FolderKanban /> Projects
           </h2>
-          <div className="space-y-6">
+          <div className="space-y-4">
             {projects.map((proj) => (
               <div key={proj.id}>
                 <div className="flex justify-between items-baseline">
@@ -143,7 +143,7 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
                     </a>
                   )}
                 </div>
-                <ul className="mt-2 list-disc list-inside text-gray-600 space-y-1 text-sm">
+                <ul className="mt-1 list-disc list-inside text-gray-600 space-y-1 text-sm">
                   {proj.description
                     .split("\n")
                     .map(
@@ -157,7 +157,7 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-4 flex items-baseline gap-2">
+          <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-3 flex items-center gap-2">
             <Star /> Skills
           </h2>
           <div className="flex flex-wrap gap-x-4 gap-y-2">
@@ -176,10 +176,10 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-4 flex items-baseline gap-2">
+          <h2 className="text-2xl font-bold font-headline text-primary border-b-2 border-primary/30 pb-2 mb-3 flex items-center gap-2">
             <Award /> Extracurricular Activities
           </h2>
-          <div className="space-y-4">
+          <div className="space-y-3">
             {extracurriculars.map((extra) => (
               <div key={extra.id}>
                 <h3 className="text-lg font-semibold font-headline">
