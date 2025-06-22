@@ -21,7 +21,9 @@ export type ReviewResumeInput = z.infer<typeof ReviewResumeInputSchema>;
 
 const ReviewResumeOutputSchema = z.object({
   score: z.number().describe('A score between 0 and 100 representing the overall quality of the resume.'),
-  feedback: z.string().describe('Detailed feedback on the resume, including strengths and weaknesses and suggestions for improvement.'),
+  strengths: z.string().describe("A bulleted list of the resume's main strengths."),
+  areasForImprovement: z.string().describe('A bulleted list of the key areas where the resume can be improved.'),
+  actionableSuggestions: z.string().describe('A bulleted list of specific, actionable suggestions for improving the resume.'),
 });
 
 export type ReviewResumeOutput = z.infer<typeof ReviewResumeOutputSchema>;
@@ -36,11 +38,16 @@ const reviewResumePrompt = ai.definePrompt({
   output: {schema: ReviewResumeOutputSchema},
   prompt: `You are an expert career coach specializing in resume writing.
 
-You will analyze the provided resume text and provide feedback on its strengths and weaknesses.
+You will analyze the provided resume text and provide structured feedback.
 
 Based on your analysis, give the resume an overall score between 0 and 100.
 
-Provide detailed feedback, including specific areas for improvement. Explain your score.
+Then, provide the following in bulleted lists:
+- The resume's main strengths.
+- The key areas where the resume can be improved.
+- Specific, actionable suggestions for making those improvements.
+
+Explain your score within the feedback.
 
 Resume Text: {{{resumeText}}}`,
 });

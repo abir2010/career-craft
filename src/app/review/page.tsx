@@ -26,7 +26,14 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
-import { Loader2, Sparkles, PenSquare } from "lucide-react";
+import {
+  Loader2,
+  Sparkles,
+  PenSquare,
+  ThumbsUp,
+  ThumbsDown,
+  Wand2,
+} from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
@@ -181,11 +188,40 @@ export default function ResumeReviewPage() {
               </Card>
               <Card>
                 <CardHeader>
-                  <CardTitle className="font-headline">AI Feedback</CardTitle>
+                  <CardTitle className="font-headline flex items-center gap-2">
+                    <ThumbsUp className="h-5 w-5 text-green-500" />
+                    Strengths
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="prose prose-sm dark:prose-invert max-w-none text-foreground text-sm space-y-4 whitespace-pre-wrap font-body">
-                    {review.feedback}
+                    {review.strengths}
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="font-headline flex items-center gap-2">
+                    <ThumbsDown className="h-5 w-5 text-destructive" />
+                    Areas for Improvement
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="prose prose-sm dark:prose-invert max-w-none text-foreground text-sm space-y-4 whitespace-pre-wrap font-body">
+                    {review.areasForImprovement}
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="font-headline flex items-center gap-2">
+                    <Wand2 className="h-5 w-5 text-primary" />
+                    Actionable Suggestions
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="prose prose-sm dark:prose-invert max-w-none text-foreground text-sm space-y-4 whitespace-pre-wrap font-body">
+                    {review.actionableSuggestions}
                   </div>
                 </CardContent>
               </Card>
