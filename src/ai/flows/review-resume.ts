@@ -24,6 +24,12 @@ const ReviewResumeOutputSchema = z.object({
   strengths: z.string().describe("A bulleted list of the resume's main strengths."),
   areasForImprovement: z.string().describe('A bulleted list of the key areas where the resume can be improved.'),
   actionableSuggestions: z.string().describe('A bulleted list of specific, actionable suggestions for improving the resume.'),
+  detailedScore: z.object({
+    writingStyle: z.number().describe('Score out of 100 for writing style, tone, and grammar.'),
+    clarity: z.number().describe('Score out of 100 for clarity and conciseness.'),
+    impact: z.number().describe('Score out of 100 for the use of impact statements and action verbs.'),
+    structure: z.number().describe('Score out of 100 for the resume\'s formatting and structure.'),
+  }).describe('A detailed breakdown of scores in four key categories.'),
 });
 
 export type ReviewResumeOutput = z.infer<typeof ReviewResumeOutputSchema>;
@@ -41,6 +47,12 @@ const reviewResumePrompt = ai.definePrompt({
 You will analyze the provided resume text and provide structured feedback.
 
 Based on your analysis, give the resume an overall score between 0 and 100.
+
+Also provide a detailed score breakdown (0-100) for the following categories:
+- Writing Style: Assess grammar, tone, and professional language.
+- Clarity: Assess how clear and concise the information is.
+- Impact: Assess the use of quantifiable achievements, action verbs, and impact-driven statements.
+- Structure: Assess the formatting, layout, and overall readability.
 
 Then, provide the following in bulleted lists:
 - The resume's main strengths.

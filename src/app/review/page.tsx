@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
+import { CircularProgress } from "@/components/ui/circular-progress";
 import {
   Loader2,
   Sparkles,
@@ -72,6 +73,31 @@ export default function ResumeReviewPage() {
     }
   }
 
+  const detailedScores = review
+    ? [
+        {
+          label: "Writing Style",
+          value: review.detailedScore.writingStyle,
+          color: "hsl(var(--chart-1))",
+        },
+        {
+          label: "Clarity",
+          value: review.detailedScore.clarity,
+          color: "hsl(var(--chart-2))",
+        },
+        {
+          label: "Impact",
+          value: review.detailedScore.impact,
+          color: "hsl(var(--chart-3))",
+        },
+        {
+          label: "Structure",
+          value: review.detailedScore.structure,
+          color: "hsl(var(--chart-4))",
+        },
+      ]
+    : [];
+
   return (
     <div className="container mx-auto p-4 md:p-8">
       <div className="mb-8">
@@ -81,59 +107,53 @@ export default function ResumeReviewPage() {
         </p>
       </div>
 
-      <div className="grid gap-8">
-        <div>
-          <Card>
-            <CardHeader>
-              <CardTitle className="font-headline">Your Resume</CardTitle>
-              <CardDescription>
-                Paste your complete resume text into the box below.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-6"
-                >
-                  <FormField
-                    control={form.control}
-                    name="resumeText"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Textarea
-                            placeholder="Paste your resume text here..."
-                            className="min-h-[400px]"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button
-                    type="submit"
-                    disabled={isLoading}
-                    className="w-full"
-                  >
-                    {isLoading ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Analyzing...
-                      </>
-                    ) : (
-                      <>
-                        <Sparkles className="mr-2 h-4 w-4" />
-                        Review My Resume
-                      </>
-                    )}
-                  </Button>
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
-        </div>
+      <div className="grid gap-8 md:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle className="font-headline">Your Resume</CardTitle>
+            <CardDescription>
+              Paste your complete resume text into the box below.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6"
+              >
+                <FormField
+                  control={form.control}
+                  name="resumeText"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Paste your resume text here..."
+                          className="min-h-[400px] md:min-h-[600px]"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" disabled={isLoading} className="w-full">
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Analyzing...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="mr-2 h-4 w-4" />
+                      Review My Resume
+                    </>
+                  )}
+                </Button>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
 
         <div className="flex flex-col gap-8">
           {isLoading && (
@@ -179,13 +199,34 @@ export default function ResumeReviewPage() {
                   </div>
                   <Progress value={review.score} className="mt-4 h-3" />
                 </CardContent>
-                <CardFooter>
-                  <p className="text-sm text-muted-foreground text-center w-full">
-                    This score reflects the AI&apos;s assessment of your
-                    resume&apos;s effectiveness.
-                  </p>
-                </CardFooter>
               </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="font-headline">
+                    Detailed Analysis
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                  {detailedScores.map((score) => (
+                    <div
+                      key={score.label}
+                      className="flex flex-col items-center gap-2"
+                    >
+                      <CircularProgress
+                        value={score.value}
+                        color={score.color}
+                        size={80}
+                        strokeWidth={8}
+                      />
+                      <p className="text-sm font-medium text-muted-foreground">
+                        {score.label}
+                      </p>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+
               <Card>
                 <CardHeader>
                   <CardTitle className="font-headline flex items-center gap-2">
