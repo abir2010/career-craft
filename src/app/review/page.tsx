@@ -74,8 +74,8 @@ export default function ResumeReviewPage() {
         </p>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-3">
-        <div className="lg:col-span-2">
+      <div className="grid gap-8">
+        <div>
           <Card>
             <CardHeader>
               <CardTitle className="font-headline">Your Resume</CardTitle>
