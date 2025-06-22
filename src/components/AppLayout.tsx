@@ -42,25 +42,28 @@ function AppLayoutUI({ children }: { children: React.ReactNode }) {
         <SidebarHeader>
           <div
             className={cn(
-              "flex items-center p-2",
-              state === "expanded" ? "justify-start" : "justify-center"
+              "flex items-center gap-2 p-2",
+              state === "collapsed" ? "justify-center" : "justify-start"
             )}
           >
-            <div className="flex items-center gap-2 overflow-hidden">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-9 w-9 shrink-0"
-                asChild
-              >
-                <Link href="/">
-                  <Sparkles className="h-6 w-6 text-primary" />
-                </Link>
-              </Button>
-              <h1 className="text-xl font-headline font-semibold whitespace-nowrap">
-                CareerCraft AI
-              </h1>
-            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-10 w-10 shrink-0"
+              asChild
+            >
+              <Link href="/">
+                <Sparkles className="h-6 w-6 text-primary" />
+              </Link>
+            </Button>
+            <h1
+              className={cn(
+                "text-xl font-headline font-semibold whitespace-nowrap",
+                state === "collapsed" ? "hidden" : "block"
+              )}
+            >
+              CareerCraft AI
+            </h1>
           </div>
         </SidebarHeader>
         <SidebarContent>
