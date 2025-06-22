@@ -1,15 +1,4 @@
 import type { ResumeData } from "../types";
-import {
-  Mail,
-  Phone,
-  MapPin,
-  Link as LinkIcon,
-  Briefcase,
-  GraduationCap,
-  Star,
-  FolderKanban,
-  Award,
-} from "lucide-react";
 
 interface ResumePreviewProps {
   resumeData: ResumeData;
@@ -36,19 +25,15 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
         </h1>
         <div className="flex justify-center items-center gap-x-4 gap-y-1 mt-2 text-sm text-muted-foreground flex-wrap">
           <div className="flex items-center gap-2">
-            <Mail className="w-4 h-4" />
             <span>{personalInfo.email}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Phone className="w-4 h-4" />
             <span>{personalInfo.phoneNumber}</span>
           </div>
           <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4" />
             <span>{personalInfo.address}</span>
           </div>
           <div className="flex items-center gap-2">
-            <LinkIcon className="w-4 h-4" />
             <span>{personalInfo.link}</span>
           </div>
         </div>
@@ -63,7 +48,6 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
         )}
         <section className="mb-2">
           <h2 className="text-xl font-bold font-headline text-primary border-b border-primary/30 pb-1 mb-2 flex items-center">
-            <Briefcase className="h-5 w-5 mr-2" />
             <span>Experience</span>
           </h2>
           {experience.map((exp, index) => (
@@ -101,7 +85,6 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
 
         <section className="mb-2">
           <h2 className="text-xl font-bold font-headline text-primary border-b border-primary/30 pb-1 mb-2 flex items-center">
-            <GraduationCap className="h-5 w-5 mr-2" />
             <span>Education</span>
           </h2>
           {education.map((edu, index) => (
@@ -129,7 +112,6 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
 
         <section className="mb-2">
           <h2 className="text-xl font-bold font-headline text-primary border-b border-primary/30 pb-1 mb-2 flex items-center">
-            <FolderKanban className="h-5 w-5 mr-2" />
             <span>Projects</span>
           </h2>
           {projects.map((proj, index) => (
@@ -166,7 +148,6 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
 
         <section className="mb-2">
           <h2 className="text-xl font-bold font-headline text-primary border-b border-primary/30 pb-1 mb-2 flex items-center">
-            <Star className="h-5 w-5 mr-2" />
             <span>Skills</span>
           </h2>
           <div className="flex flex-wrap gap-x-2 gap-y-1">
@@ -186,7 +167,6 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
 
         <section>
           <h2 className="text-xl font-bold font-headline text-primary border-b border-primary/30 pb-1 mb-2 flex items-center">
-            <Award className="h-5 w-5 mr-2" />
             <span>Extracurricular Activities</span>
           </h2>
           {extracurriculars.map((extra, index) => (
