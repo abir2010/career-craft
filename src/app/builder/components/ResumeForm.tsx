@@ -280,63 +280,67 @@ export function ResumeForm({
               <User /> Personal Information
             </div>
           </AccordionTrigger>
-          <AccordionContent className="space-y-4 p-2">
-            <div className="space-y-2">
-              <Label htmlFor="fullName">Full Name</Label>
-              <Input
-                id="fullName"
-                name="fullName"
-                value={resumeData.personalInfo.fullName}
-                onChange={handlePersonalInfoChange}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                value={resumeData.personalInfo.email}
-                onChange={handlePersonalInfoChange}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="phoneNumber">Phone Number</Label>
-              <Input
-                id="phoneNumber"
-                name="phoneNumber"
-                value={resumeData.personalInfo.phoneNumber}
-                onChange={handlePersonalInfoChange}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="address">Address</Label>
-              <Input
-                id="address"
-                name="address"
-                value={resumeData.personalInfo.address}
-                onChange={handlePersonalInfoChange}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="link">LinkedIn/Portfolio</Label>
-              <Input
-                id="link"
-                name="link"
-                value={resumeData.personalInfo.link}
-                onChange={handlePersonalInfoChange}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="careerObjective">Career Objective</Label>
-              <Textarea
-                id="careerObjective"
-                name="careerObjective"
-                value={resumeData.personalInfo.careerObjective}
-                onChange={handlePersonalInfoChange}
-                rows={4}
-              />
-            </div>
+          <AccordionContent className="p-2">
+            <Card>
+              <CardContent className="p-4 space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="fullName">Full Name</Label>
+                  <Input
+                    id="fullName"
+                    name="fullName"
+                    value={resumeData.personalInfo.fullName}
+                    onChange={handlePersonalInfoChange}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={resumeData.personalInfo.email}
+                    onChange={handlePersonalInfoChange}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="phoneNumber">Phone Number</Label>
+                  <Input
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    value={resumeData.personalInfo.phoneNumber}
+                    onChange={handlePersonalInfoChange}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="address">Address</Label>
+                  <Input
+                    id="address"
+                    name="address"
+                    value={resumeData.personalInfo.address}
+                    onChange={handlePersonalInfoChange}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="link">LinkedIn/Portfolio</Label>
+                  <Input
+                    id="link"
+                    name="link"
+                    value={resumeData.personalInfo.link}
+                    onChange={handlePersonalInfoChange}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="careerObjective">Career Objective</Label>
+                  <Textarea
+                    id="careerObjective"
+                    name="careerObjective"
+                    value={resumeData.personalInfo.careerObjective}
+                    onChange={handlePersonalInfoChange}
+                    rows={4}
+                  />
+                </div>
+              </CardContent>
+            </Card>
           </AccordionContent>
         </AccordionItem>
 
