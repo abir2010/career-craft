@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
 import { ResumeForm } from "./components/ResumeForm";
 import { ResumePreview } from "./components/ResumePreview";
 import type { ResumeData } from "./types";
@@ -12,18 +10,22 @@ import { initialResumeData } from "./initial-data";
 
 export default function BuilderPage() {
   const [resumeData, setResumeData] = useState<ResumeData>(initialResumeData);
+  const [templateId, setTemplateId] = useState<string>("default");
   const [isDownloading, setIsDownloading] = useState(false);
 
   const handleDownloadPdf = async () => {
-    const element = document.getElementById("resume-preview");
-    if (!element) {
-      console.error("Resume preview element not found");
-      return;
-    }
-
     setIsDownloading(true);
-
     try {
+      const { default: html2canvas } = await import("html2canvas");
+      const { default: jsPDF } = await import("jspdf");
+
+      const element = document.getElementById("resume-preview");
+      if (!element) {
+        console.error("Resume preview element not found");
+        setIsDownloading(false);
+        return;
+      }
+
       const canvas = await html2canvas(element, {
         scale: 2,
         useCORS: true,
@@ -31,7 +33,6 @@ export default function BuilderPage() {
       });
 
       const imgData = canvas.toDataURL("image/png");
-
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "pt",
@@ -79,10 +80,15 @@ export default function BuilderPage() {
       </header>
       <div className="flex-1 grid md:grid-cols-[450px_1fr] overflow-hidden">
         <div className="overflow-y-auto no-print">
-          <ResumeForm resumeData={resumeData} setResumeData={setResumeData} />
+          <ResumeForm
+            resumeData={resumeData}
+            setResumeData={setResumeData}
+            templateId={templateId}
+            setTemplateId={setTemplateId}
+          />
         </div>
         <div className="bg-muted/30 overflow-y-auto p-4 md:p-8 flex justify-center">
-          <ResumePreview resumeData={resumeData} />
+          <ResumePreview resumeData={resumeData} templateId={templateId} />
         </div>
       </div>
     </div>

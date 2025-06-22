@@ -21,16 +21,31 @@ import {
   Trash2,
   FolderKanban,
   Award,
+  Palette,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const uid = () => `id-${Date.now()}${Math.random().toString(36).substr(2, 9)}`;
 
 interface ResumeFormProps {
   resumeData: ResumeData;
   setResumeData: React.Dispatch<React.SetStateAction<ResumeData>>;
+  templateId: string;
+  setTemplateId: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
+const templates = [
+  { id: "default", name: "Default" },
+  { id: "modern", name: "Modern" },
+  { id: "classic", name: "Classic" },
+];
+
+export function ResumeForm({
+  resumeData,
+  setResumeData,
+  templateId,
+  setTemplateId,
+}: ResumeFormProps) {
   const handlePersonalInfoChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -192,9 +207,73 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
     <div className="p-6 space-y-6">
       <Accordion
         type="multiple"
-        defaultValue={["personal-info", "experience"]}
+        defaultValue={["appearance", "personal-info"]}
         className="w-full"
       >
+        <AccordionItem value="appearance">
+          <AccordionTrigger>
+            <div className="flex items-center gap-2 font-headline">
+              <Palette /> Appearance
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="p-2">
+            <h3 className="text-sm font-medium mb-2 text-muted-foreground">
+              Select a Template
+            </h3>
+            <div className="grid grid-cols-3 gap-3">
+              {templates.map((template) => (
+                <div
+                  key={template.id}
+                  className={cn(
+                    "cursor-pointer border-2 rounded-lg p-2 transition-all",
+                    templateId === template.id
+                      ? "border-primary ring-2 ring-primary"
+                      : "border-border hover:border-primary/50"
+                  )}
+                  onClick={() => setTemplateId(template.id)}
+                >
+                  <div className="h-24 w-full bg-card rounded-md flex flex-col items-center p-1 gap-1 overflow-hidden">
+                    {/* Simplified preview based on template id */}
+                    {template.id === "default" && (
+                      <div className="w-full">
+                        <div className="h-2 bg-muted rounded-sm w-1/2 mx-auto" />
+                        <div className="h-1.5 bg-muted rounded-sm w-full mt-1" />
+                        <div className="h-1 bg-primary w-1/4 mt-2" />
+                        <div className="h-1 bg-muted rounded-sm w-full mt-1" />
+                        <div className="h-1 bg-muted rounded-sm w-full mt-0.5" />
+                        <div className="h-1 bg-primary w-1/4 mt-2" />
+                        <div className="h-1 bg-muted rounded-sm w-full mt-1" />
+                      </div>
+                    )}
+                    {template.id === "modern" && (
+                      <div className="w-full flex gap-1 h-full">
+                        <div className="w-1/3 bg-muted/50 h-full rounded-sm" />
+                        <div className="w-2/3 h-full flex flex-col gap-1">
+                          <div className="h-2 bg-muted rounded-sm w-full" />
+                          <div className="h-1 bg-muted rounded-sm w-full mt-1" />
+                          <div className="h-1 bg-muted rounded-sm w-3/4" />
+                        </div>
+                      </div>
+                    )}
+                    {template.id === "classic" && (
+                      <div className="w-full">
+                        <div className="h-2 bg-muted rounded-sm w-3/4 mx-auto" />
+                        <div className="h-0.5 bg-muted w-full my-2" />
+                        <div className="h-1 bg-muted rounded-sm w-1/2" />
+                        <div className="h-1 bg-muted rounded-sm w-full mt-1" />
+                        <div className="h-1 bg-muted rounded-sm w-full mt-0.5" />
+                      </div>
+                    )}
+                  </div>
+                  <p className="text-center text-xs font-medium mt-1">
+                    {template.name}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+
         <AccordionItem value="personal-info">
           <AccordionTrigger>
             <div className="flex items-center gap-2 font-headline">
