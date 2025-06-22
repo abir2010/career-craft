@@ -49,7 +49,7 @@ export function DefaultTemplate({ resumeData }: TemplateProps) {
           </section>
         )}
         <section>
-          <h2 className="text-xl font-bold font-headline text-primary border-b border-primary/30 pb-1 mb-3 flex items-center">
+          <h2 className="text-xl font-bold font-headline text-primary border-b border-primary/30 pb-1 mb-3">
             Experience
           </h2>
           {experience.map((exp, index) => (
@@ -70,7 +70,7 @@ export function DefaultTemplate({ resumeData }: TemplateProps) {
         </section>
 
         <section>
-          <h2 className="text-xl font-bold font-headline text-primary border-b border-primary/30 pb-1 mb-3 flex items-center">
+          <h2 className="text-xl font-bold font-headline text-primary border-b border-primary/30 pb-1 mb-3">
             Education
           </h2>
           {education.map((edu, index) => (
@@ -88,7 +88,7 @@ export function DefaultTemplate({ resumeData }: TemplateProps) {
         </section>
 
         <section>
-          <h2 className="text-xl font-bold font-headline text-primary border-b border-primary/30 pb-1 mb-3 flex items-center">
+          <h2 className="text-xl font-bold font-headline text-primary border-b border-primary/30 pb-1 mb-3">
             Projects
           </h2>
           {projects.map((proj, index) => (
@@ -109,23 +109,17 @@ export function DefaultTemplate({ resumeData }: TemplateProps) {
         </section>
 
         <section>
-          <h2 className="text-xl font-bold font-headline text-primary border-b border-primary/30 pb-1 mb-3 flex items-center">
+          <h2 className="text-xl font-bold font-headline text-primary border-b border-primary/30 pb-1 mb-3">
             Skills
           </h2>
-          <div className="flex flex-wrap gap-2">
-            {skills.map((skill) =>
-                skill.name && (
-                  <span key={skill.id} className="border border-primary/50 text-primary font-medium py-0.5 px-2 rounded-full text-xs">
-                    {skill.name}
-                  </span>
-                )
-            )}
-          </div>
+          <p className="text-sm text-muted-foreground">
+            {skills.map((skill) => skill.name).join("  •  ")}
+          </p>
         </section>
 
         {extracurriculars.length > 0 && (
           <section>
-            <h2 className="text-xl font-bold font-headline text-primary border-b border-primary/30 pb-1 mb-3 flex items-center">
+            <h2 className="text-xl font-bold font-headline text-primary border-b border-primary/30 pb-1 mb-3">
               Extracurricular Activities
             </h2>
             {extracurriculars.map((extra, index) => (

@@ -23,15 +23,15 @@ export function ClassicTemplate({ resumeData }: TemplateProps) {
         <h1 className="text-4xl font-bold tracking-wider uppercase">
           {personalInfo.fullName}
         </h1>
-        <div className="flex justify-center items-center gap-x-3 mt-2 text-xs text-muted-foreground">
+        <div className="flex justify-center items-center flex-wrap gap-x-3 mt-2 text-xs text-muted-foreground">
           <span>{personalInfo.email}</span>
-          <span>&bull;</span>
+          <span aria-hidden="true">|</span>
           <span>{personalInfo.phoneNumber}</span>
-          <span>&bull;</span>
+          <span aria-hidden="true">|</span>
           <span>{personalInfo.address}</span>
           {personalInfo.link && (
             <>
-              <span>&bull;</span>
+              <span aria-hidden="true">|</span>
               <a
                 href={`//${personalInfo.link}`}
                 target="_blank"

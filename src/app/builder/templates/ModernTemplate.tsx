@@ -43,14 +43,8 @@ export function ModernTemplate({ resumeData }: TemplateProps) {
           
           <section>
             <h2 className="text-sm font-bold uppercase text-primary tracking-widest mb-2">Skills</h2>
-            <div className="flex flex-wrap gap-1.5">
-              {skills.map((skill) =>
-                skill.name && (
-                  <span key={skill.id} className="bg-primary/20 text-primary-darker font-medium py-0.5 px-2 rounded text-[10px]">
-                    {skill.name}
-                  </span>
-                )
-              )}
+            <div className="text-xs text-slate-600">
+              {skills.map((skill) => skill.name).join(", ")}
             </div>
           </section>
 
