@@ -44,7 +44,7 @@ export default function Home() {
           Your all-in-one solution for building a winning career profile.
         </p>
       </header>
-      <main className="flex-1 p-8 pt-0 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <main className="flex-1 p-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {features.map((feature) => (
           <Card
             key={feature.title}
@@ -58,10 +58,8 @@ export default function Home() {
                 <CardTitle className="font-headline">{feature.title}</CardTitle>
               </div>
             </CardHeader>
-            <CardContent className="flex-1 flex flex-col">
-              <CardDescription className="flex-1">
-                {feature.description}
-              </CardDescription>
+            <CardContent className="flex-1 flex flex-col justify-between">
+              <CardDescription>{feature.description}</CardDescription>
               <Button asChild className="mt-4 w-full">
                 <Link href={feature.href}>
                   Get Started <ArrowRight className="ml-2 h-4 w-4" />
