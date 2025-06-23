@@ -118,23 +118,28 @@ export default function InterviewPrepPage() {
       const canvas = await html2canvas(qaCard, {
         scale: 2,
         useCORS: true,
+        // Explicitly set the height for capture
+        height: qaCard.scrollHeight,
+        windowHeight: qaCard.scrollHeight,
       });
 
       // Restore accordions to their original closed state
       triggers.forEach((trigger) => trigger.click());
 
       const imgData = canvas.toDataURL("image/png");
+
       const pdf = new jsPDF({
         orientation: "portrait",
-        unit: "pt",
-        format: "letter",
+        unit: "px", // Use pixels for more direct mapping
+        format: "a4",
       });
 
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
 
-      const imgWidth = canvas.width;
-      const imgHeight = canvas.height;
+      const imgProps = pdf.getImageProperties(imgData);
+      const imgWidth = imgProps.width;
+      const imgHeight = imgProps.height;
 
       const ratio = pdfWidth / imgWidth;
       const scaledImgHeight = imgHeight * ratio;
@@ -142,11 +147,13 @@ export default function InterviewPrepPage() {
       let heightLeft = scaledImgHeight;
       let position = 0;
 
+      // Add the first page
       pdf.addImage(imgData, "PNG", 0, position, pdfWidth, scaledImgHeight);
       heightLeft -= pdfHeight;
 
+      // Add subsequent pages if needed
       while (heightLeft > 0) {
-        position -= pdfHeight;
+        position -= pdfHeight; // Move the image "up" on the page
         pdf.addPage();
         pdf.addImage(imgData, "PNG", 0, position, pdfWidth, scaledImgHeight);
         heightLeft -= pdfHeight;
@@ -164,6 +171,7 @@ export default function InterviewPrepPage() {
       setIsDownloading(false);
     }
   };
+
 
   return (
     <div className="container mx-auto p-4 md:p-8">
