@@ -32,7 +32,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Loader2, Sparkles, MessageSquare } from "lucide-react";
+import { Loader2, Sparkles, MessageSquare, Download } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
@@ -45,6 +45,7 @@ export default function InterviewPrepPage() {
   const [qaPairs, setQaPairs] = useState<PrepareInterviewOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isGeneratingMore, setIsGeneratingMore] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -93,6 +94,76 @@ export default function InterviewPrepPage() {
       setIsGeneratingMore(false);
     }
   }
+
+  const handleDownloadPdf = async () => {
+    if (!qaPairs) return;
+    const qaCard = document.getElementById("qa-card");
+    if (!qaCard) return;
+
+    // Expand all accordions to ensure they are in the canvas
+    const triggers = qaCard.querySelectorAll<HTMLButtonElement>(
+      '[data-state="closed"]'
+    );
+    triggers.forEach((trigger) => trigger.click());
+
+    setIsDownloading(true);
+
+    try {
+      // Wait for accordions to expand before capturing
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      const { default: html2canvas } = await import("html2canvas");
+      const { default: jsPDF } = await import("jspdf");
+
+      const canvas = await html2canvas(qaCard, {
+        scale: 2,
+        useCORS: true,
+      });
+
+      // Restore accordions to their original closed state
+      triggers.forEach((trigger) => trigger.click());
+
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "pt",
+        format: "letter",
+      });
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+
+      const ratio = pdfWidth / imgWidth;
+      const scaledImgHeight = imgHeight * ratio;
+
+      let heightLeft = scaledImgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, "PNG", 0, position, pdfWidth, scaledImgHeight);
+      heightLeft -= pdfHeight;
+
+      while (heightLeft > 0) {
+        position -= pdfHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 0, position, pdfWidth, scaledImgHeight);
+        heightLeft -= pdfHeight;
+      }
+
+      pdf.save("interview-prep.pdf");
+    } catch (error) {
+      console.error("Failed to generate PDF", error);
+      toast({
+        title: "Error",
+        description: "Failed to generate PDF. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   return (
     <div className="container mx-auto p-4 md:p-8">
@@ -184,14 +255,35 @@ export default function InterviewPrepPage() {
           )}
 
           {qaPairs && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="font-headline">
-                  Practice Questions
-                </CardTitle>
+            <Card id="qa-card">
+              <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                  <CardTitle className="font-headline">
+                    Practice Questions
+                  </CardTitle>
+                  <CardDescription>
+                    All generated questions will be included in the PDF.
+                  </CardDescription>
+                </div>
+                <Button
+                  onClick={handleDownloadPdf}
+                  disabled={isDownloading || !qaPairs}
+                >
+                  {isDownloading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Downloading...
+                    </>
+                  ) : (
+                    <>
+                      <Download className="mr-2 h-4 w-4" />
+                      Download PDF
+                    </>
+                  )}
+                </Button>
               </CardHeader>
               <CardContent>
-                <Accordion type="single" collapsible className="w-full">
+                <Accordion type="multiple" className="w-full">
                   {qaPairs.qaPairs.map((qa, index) => (
                     <AccordionItem value={`item-${index}`} key={index}>
                       <AccordionTrigger className="text-left font-semibold">
